@@ -93,11 +93,11 @@ exports.testCmd = (rl, id) => {
 
 				if(String(respuesta.trim().toLowerCase()) === String(quiz.answer.toLowerCase())){
 					log('Su respuesta es: ');
-					biglog('CORRECTA','green');
+					biglog('Correcta','green');
 				}	
 				else{
 					log('Su respuesta es: ');
-					biglog('INCORRECTA', 'red');
+					biglog('Incorrect', 'red');
 				}
 				rl.prompt();
 			});
@@ -144,7 +144,7 @@ exports.editCmd = (rl, id) => {
 };
 
 exports.creditsCmd = rl => { 
-		log('Creditos');
+		log('Juan José Herrero Bermejo');
 		rl.prompt();
 	
 };
@@ -189,6 +189,7 @@ exports.playCmd = rl => {
 				}
 				else{
 					log("\nRespuesta incorrecta my friend\n");
+					log("FIN DEL JUEGO","orange");
 					log(`Su resultado ha sido:`);
 					biglog(`${score}`,'red');
 					log("¡Pruebe otra vez!\n");
