@@ -182,14 +182,14 @@ exports.playCmd = rl => {
 				if (String(respuesta.trim().toLowerCase()) === String(quiz.answer.toLowerCase())){
 					score += 1;
 					log("....................................................................................................");
-					log("\nRespuesta correcta my friend\n");
+					log("\nRespuesta correcta\n");
 					if(score == 1) {	log(`Lleva ${score} acierto`);	}
 					else {	log(`Lleva ${score} aciertos`);	}
 					playOne(); 
 				}
 				else{
-					log("\nRespuesta incorrecta my friend\n");
-					log("FIN DEL JUEGO","orange");
+					log("\nRespuesta incorrecta\n");
+					log("FIN DEL JUEGO","red");
 					log(`Su resultado ha sido:`);
 					biglog(`${score}`,'red');
 					log("¡Pruebe otra vez!\n");
