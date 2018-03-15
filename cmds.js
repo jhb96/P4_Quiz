@@ -29,10 +29,10 @@ exports.quitCmd = rl => {
 
 
 
-const makeQuestion =(rl, text) => {
-  return new Sequelize.Promise ((resolve, reject) => {
-    rl.question(colorize(` ¿${text}? `, 'red'), answer => {
-      resolve(answer.trim());
+const makeQuestion = (rl, text) => {
+  return new Sequelize.Promise ((resolve,reject) => {
+    rl.question(colorize(text, 'red'), answer =>{
+    resolve(answer.trim());
     });
   });
 };
@@ -299,7 +299,7 @@ models.quiz.findAll()
         .then(respuesta => { 
           if (String(respuesta.trim().toLowerCase().trim()) === String(quiz.answer.toLowerCase()).trim()){
             score += 1;
-            log(`CORRECTO`);
+            log(`CORRECTA`);
             log("....................................................................................................");
             log("\nRespuesta correcta\n");
             if(score === 1) {  
@@ -311,7 +311,7 @@ models.quiz.findAll()
               playOne(); 
           }
           else {
-            log(`INCORRECTO`);
+            log(`INCORRECTA`);
             log(`Fin`);
             log("FIN DEL JUEGO","red");
             log(`Su resultado ha sido:`);
