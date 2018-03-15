@@ -196,12 +196,13 @@ exports.testCmd = (rl,id) => {
     return makeQuestion(rl, `${quiz.question} `)
     .then(respuesta => {
       if(respuesta.toLowerCase().trim() === quiz.answer.toLowerCase().trim()){
+          log(`correct`);
           log( `La respuesta es correcta.`);
-          log(`Correcta`);
+          
       }
       else {
+          console.log(`incorrect`);
           console.log(`La respuesta es incorrecta.`);
-          console.log(`Incorrecta`);
       };
     });
  })
@@ -281,10 +282,10 @@ models.quiz.findAll()
 
       if(toBeResolved.length === 0 /*|| toBeResolved[0] === "undefined" || typeof toBeResolved === "undefined"*/){
         log(`Fin`);
-        log('¡No hay más preguntas!');
-        log(`Su puntuación final es... `);
+        //log('¡No hay más preguntas!');
+        //log(`Su puntuación final es... `);
         //biglog(`${score}`,'red');
-        log("¡¡¡ENHORABUENA!!!",'red'); 
+        //log("¡¡¡ENHORABUENA!!!",'red'); 
         rl.prompt();
       }
       else {
@@ -299,9 +300,9 @@ models.quiz.findAll()
         .then(respuesta => { 
           if (String(respuesta.trim().toLowerCase().trim()) === String(quiz.answer.toLowerCase()).trim()){
             score += 1;
-            log(`CORRECTA`);
-            log("....................................................................................................");
-            log("\nRespuesta correcta\n");
+            log(`correct`);
+            //log("....................................................................................................");
+            //log("Respuesta correcta");
             if(score === 1) {  
               log(`Lleva ${score} acierto`);
               playOne();  
@@ -311,12 +312,14 @@ models.quiz.findAll()
               playOne(); 
           }
           else {
-            log(`INCORRECTA`);
+            log(`incorrect`);
+            log(`numero de aciertos : ${score}`);
             log(`Fin`);
-            log("FIN DEL JUEGO","red");
-            log(`Su resultado ha sido:`);
+            //log(`Fin`);
+            //log("FIN DEL JUEGO","red");
+            //log(`Su resultado ha sido:`);
             //biglog(`${score}`,'red');
-            log("¡Pruebe otra vez!\n");
+            //log("¡Pruebe otra vez!\n");
           }
         })
         .catch(error => {
