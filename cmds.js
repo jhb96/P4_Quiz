@@ -146,7 +146,7 @@ validateId(id)
 
 /*exports.testCmd = (rl, id) => {
   validateId(id)
-    .then(id => { models.quiz.findById(id)
+    .then(id => { models.quiz.findById(id))
       .then(quiz => {
           if(!quiz){
                 throw new Error(`No existe el parametro asociado ${id}.`);
@@ -165,7 +165,6 @@ validateId(id)
         }
         rl.prompt();
       });
-    });
   });
 }*/
 
@@ -195,8 +194,8 @@ exports.testCmd = (rl,id) => {
   }
 
     makeQuestion(rl, `${quiz.question} `)
-    .then(a => {
-      if(a === quiz.answer){
+    .then(respuesta => {
+      if(String(respuesta.trim().toLowerCase()) === String(quiz.answer.toLowerCase())){
         log( "La respuesta es correcta");
             rl.prompt();
             }
@@ -205,15 +204,14 @@ exports.testCmd = (rl,id) => {
             rl.prompt();
         } 
 
-        })
-  })
-        .catch(error=> {
+    })
+ })
+ .catch(error=> {
   errorlog(error.message);
  })
  .then(() => {
    rl.prompt();
-
-})
+  })
 };
 
 
