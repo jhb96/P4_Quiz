@@ -196,19 +196,28 @@ exports.testCmd = (rl,id) => {
     makeQuestion(rl, `${quiz.question} `)
     .then(respuesta => {
       if(String(respuesta.trim().toLowerCase()) === String(quiz.answer.toLowerCase())){
-        log( "La respuesta es correcta");
+          log( "La respuesta es:");
+          log(`Correcta`);
             rl.prompt();
             }
       else{
-        log( "La respuesta no es correcta");
+          log( "La respuesta es:");
+          log(`Incorrecta`)
             rl.prompt();
-        } 
+        };
 
-    })
+    });
  })
+
+ .catch(Sequelize.ValidationError, error =>{
+    errorlog('El quiz es erróneo:');
+    error.errors.forEach(({message}) => errorlog(message));
+  })
+
  .catch(error=> {
   errorlog(error.message);
  })
+
  .then(() => {
    rl.prompt();
   })
@@ -261,4 +270,69 @@ exports.creditsCmd = rl => {
 
 exports.playCmd = rl => {
 
+let score = 0; //variable que guarda la puntuación
+let toBeResolved = []; //Array con las preguntas que existen
+  
+  const playOne = () => {
+
+    return new Sequelize.Promise((resolve, reject) => {
+      if(toBeResolved.length === 0 /*|| toBeResolved[0] === "undefined" || typeof toBeResolved === "undefined"*/){
+        log('¡No hay más preguntas!');
+        log(`Su puntuación final es... `);
+        //biglog(`${score}`,'red');
+        log("¡¡¡ENHORABUENA!!!",'red'); 
+        resolve();
+      }
+
+      let pos = Math.floor(Math.random() * toBeResolved.length);
+      //let id = toBeResolved[pos];
+      //let quiz = model.getByIndex(id);
+      let quiz = toBeResolved[pos];
+      log(`${colorize(quiz.question,'yellow')}`);
+      toBeResolved.splice(pos, 1); 
+
+      makeQuestion(rl, 'Cuál es su repuesta')
+      .then(respuesta => { 
+        if (String(respuesta.trim().toLowerCase()) === String(quiz.answer.toLowerCase())){
+            score += 1;
+            log("....................................................................................................");
+            log("\nRespuesta correcta\n");
+            if(score === 1) {  log(`Lleva ${score} acierto`);  }
+            else {  log(`Lleva ${score} aciertos`); }
+            playOne(); 
+        }
+        else{
+            log("\nRespuesta incorrecta\n");
+            log("FIN DEL JUEGO","red");
+            log(`Su resultado ha sido:`);
+            //biglog(`${score}`,'red');
+            log("¡Pruebe otra vez!\n");
+            resolve();
+        }
+      });
+    });
+  }
+
+//Rellenamos el array de quizzes
+models.quiz.findAll()
+.each(quiz => { 
+toBeResolved.push(quiz);
+})
+
+.then(() => {
+  return playOne(); 
+})
+.catch(Sequelize.ValidationError,error =>{
+      errorlog('El quiz es erróneo: ');
+      error.errors.forEach(({message}) => errorlog(message));
+      rl.prompt();
+})
+.catch(error => {
+      errorlog(error.message);
+})
+    
+.then(() =>{
+ console.log(score);
+ rl.prompt();
+});
 };
