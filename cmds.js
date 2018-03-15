@@ -189,21 +189,20 @@ exports.testCmd = (rl,id) => {
   validateId(id)
  .then(id => models.quiz.findById(id))
  .then(quiz => {
-  if (!quiz){
-    throw new Error(`No existe un quiz asociado al id =${id}.`);
-  }
-
+    if (!quiz){
+      throw new Error(`No existe un quiz asociado al id =${id}.`);
+    }
+    
     return makeQuestion(rl, `${quiz.question} `)
     .then(respuesta => {
       if(respuesta.toLowerCase().trim() === quiz.answer.toLowerCase().trim()){
-          log( "La respuesta es:");
-          log(`correcta`);
-            }
-      else{
-          log( "La respuesta es:");
-          log(`Incorrecta`);
-        };
-
+          log( `La respuesta es correcta.`);
+          log(`Correcta`);
+      }
+      else {
+          console.log(`La respuesta es incorrecta.`);
+          console.log(`Incorrecta`);
+      };
     });
  })
 
@@ -218,7 +217,7 @@ exports.testCmd = (rl,id) => {
 
  .then(() => {
    rl.prompt();
-  })
+  });
 };
 
 
@@ -269,68 +268,72 @@ exports.creditsCmd = rl => {
 exports.playCmd = rl => {
 
 let score = 0; //variable que guarda la puntuación
-let toBeResolved = []; //Array con las preguntas que existen
+let toBeResolved = []; //Array con las preguntas que existenç
+
+//Rellenamos el array de quizzes con todas las quizzes existentes
+models.quiz.findAll() 
+    .then(quizzes => {
+      quizzes.forEach((quiz,id) => {
+      toBeResolved[id] = quiz; 
+    });
   
   const playOne = () => {
 
-    return new Sequelize.Promise((resolve, reject) => {
       if(toBeResolved.length === 0 /*|| toBeResolved[0] === "undefined" || typeof toBeResolved === "undefined"*/){
+        log(`Fin`);
         log('¡No hay más preguntas!');
         log(`Su puntuación final es... `);
         //biglog(`${score}`,'red');
         log("¡¡¡ENHORABUENA!!!",'red'); 
-        resolve();
+        rl.prompt();
       }
+      else {
 
-      let pos = Math.floor(Math.random() * toBeResolved.length);
-      //let id = toBeResolved[pos];
-      //let quiz = model.getByIndex(id);
-      let quiz = toBeResolved[pos];
-      log(`${colorize(quiz.question,'yellow')}`);
-      toBeResolved.splice(pos, 1); 
+        let pos = Math.floor(Math.random() * toBeResolved.length);
+        //let id = toBeResolved[pos];
+        //let quiz = model.getByIndex(id);
+        let quiz = toBeResolved[pos];
+        toBeResolved.splice(pos, 1); 
 
-      makeQuestion(rl, 'Cuál es su repuesta')
-      .then(respuesta => { 
-        if (String(respuesta.trim().toLowerCase()) === String(quiz.answer.toLowerCase())){
+        return makeQuestion(rl, `${quiz.question}? `)
+        .then(respuesta => { 
+          if (String(respuesta.trim().toLowerCase().trim()) === String(quiz.answer.toLowerCase()).trim()){
             score += 1;
+            log(`CORRECTO`);
             log("....................................................................................................");
             log("\nRespuesta correcta\n");
-            if(score === 1) {  log(`Lleva ${score} acierto`);  }
-            else {  log(`Lleva ${score} aciertos`); }
-            playOne(); 
-        }
-        else{
-            log("\nRespuesta incorrecta\n");
+            if(score === 1) {  
+              log(`Lleva ${score} acierto`);
+              playOne();  
+            }
+            else {  
+              log(`Lleva ${score} aciertos`); }
+              playOne(); 
+          }
+          else {
+            log(`INCORRECTO`);
+            log(`Fin`);
             log("FIN DEL JUEGO","red");
             log(`Su resultado ha sido:`);
             //biglog(`${score}`,'red');
             log("¡Pruebe otra vez!\n");
-            resolve();
-        }
-      });
-    });
-  }
+          }
+        })
+        .catch(error => {
+        errorlog(error.message);
+        })
+        .then(() => {
+          rl.prompt();
+        });
+      }
+  };
 
-//Rellenamos el array de quizzes
-models.quiz.findAll()
-.each(quiz => { 
-toBeResolved.push(quiz);
-})
-
-.then(() => {
-  return playOne(); 
-})
-.catch(Sequelize.ValidationError,error =>{
-      errorlog('El quiz es erróneo: ');
-      error.errors.forEach(({message}) => errorlog(message));
-      rl.prompt();
+playOne(); 
 })
 .catch(error => {
       errorlog(error.message);
-})
-    
+})    
 .then(() =>{
- console.log(score);
  rl.prompt();
 });
 };
