@@ -144,7 +144,7 @@ validateId(id)
 };
 
 
-exports.testCmd = (rl, id) => {
+/*exports.testCmd = (rl, id) => {
   validateId(id)
     .then(id => { models.quiz.findById(id)
       .then(quiz => {
@@ -167,7 +167,7 @@ exports.testCmd = (rl, id) => {
       });
     });
   });
-}
+}*/
 
         /*  
         if(String(rl.trim().toLowerCase()) === String(quiz.answer.toLowerCase())){
@@ -184,8 +184,8 @@ exports.testCmd = (rl, id) => {
 
  });
 }
+*/
 
-/*
 exports.testCmd = (rl,id) => {
   validateId(id)
  .then(id => models.quiz.findById(id))
@@ -215,7 +215,7 @@ exports.testCmd = (rl,id) => {
 
 })
 };
-*/
+
 
 exports.editCmd = (rl,id) => {
   validateId(id)
