@@ -196,13 +196,13 @@ exports.testCmd = (rl,id) => {
     return makeQuestion(rl, `${quiz.question} `)
     .then(respuesta => {
       if(respuesta.toLowerCase().trim() === quiz.answer.toLowerCase().trim()){
-          log(`correct`);
-          log( `La respuesta es correcta.`);
+          console.log(`correct`);
+          //log( `La respuesta es correcta.`);
           
       }
       else {
-          console.log(`incorrect`);
-          console.log(`La respuesta es incorrecta.`);
+          console.log(`\bincorrect`);
+          //console.log(`La respuesta es incorrecta.`);
       };
     });
  })
@@ -300,21 +300,28 @@ models.quiz.findAll()
         .then(respuesta => { 
           if (String(respuesta.trim().toLowerCase().trim()) === String(quiz.answer.toLowerCase()).trim()){
             score += 1;
-            log(`correct`);
+            console.log(`correct`);
             //log("....................................................................................................");
             //log("Respuesta correcta");
-            if(score === 1) {  
+            /*if(score === 1) {  
               log(`Lleva ${score} acierto`);
               playOne();  
             }
             else {  
-              log(`Lleva ${score} aciertos`); }
+              log(`Lleva ${score} aciertos`); 
+            }*/
+
               playOne(); 
           }
           else {
-            log(`incorrect`);
-            log(`numero de aciertos : ${score}`);
-            log(`Fin`);
+            if(score === 0){ 
+              log(`Fin`);
+              log(`numero de aciertos : ${score}`);
+            }else{
+            console.log(`incorrect`);
+            console.log(`numero de aciertos : ${score}`);
+            }
+            //log(`Fin`);
             //log(`Fin`);
             //log("FIN DEL JUEGO","red");
             //log(`Su resultado ha sido:`);
