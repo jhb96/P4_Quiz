@@ -193,17 +193,15 @@ exports.testCmd = (rl,id) => {
     throw new Error(`No existe un quiz asociado al id =${id}.`);
   }
 
-    makeQuestion(rl, `${quiz.question} `)
+    return makeQuestion(rl, `${quiz.question} `)
     .then(respuesta => {
-      if(String(respuesta.trim().toLowerCase()) === String(quiz.answer.toLowerCase())){
+      if(respuesta.toLowerCase().trim() === quiz.answer.toLowerCase().trim()){
           log( "La respuesta es:");
-          log(`Correcta`);
-            rl.prompt();
+          log(`correcta`);
             }
       else{
           log( "La respuesta es:");
-          log(`Incorrecta`)
-            rl.prompt();
+          log(`Incorrecta`);
         };
 
     });
