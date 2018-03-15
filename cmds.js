@@ -300,7 +300,7 @@ models.quiz.findAll()
         .then(respuesta => { 
           if (String(respuesta.trim().toLowerCase().trim()) === String(quiz.answer.toLowerCase()).trim()){
             score += 1;
-            console.log(`correct`);
+            console.log(`CORRECTA`);
             //log("....................................................................................................");
             //log("Respuesta correcta");
             /*if(score === 1) {  
@@ -318,7 +318,7 @@ models.quiz.findAll()
               log(`Fin`);
               log(`numero de aciertos : ${score}`);
             }else{
-            console.log(`incorrect`);
+            console.log(`INCORRECTA`);
             console.log(`numero de aciertos : ${score}`);
             }
             //log(`Fin`);
