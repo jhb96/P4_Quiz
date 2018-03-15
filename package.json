@@ -1,7 +1,7 @@
 {
-  "name": "p2_quiz",
+  "name": "P3_Quiz",
   "version": "1.0.0",
-  "description": "Practica 2 CORE quiz",
+  "description": "Practica 3 CORE quiz",
   "main": "main.js",
   "scripts": {
     "start": "node main.js",
@@ -10,13 +10,15 @@
   "keywords": [
     "core",
     "quiz",
-    "practica2",
+    "practica3",
     "node"
   ],
   "author": "Juan José Herrero Bermejo",
   "license": "Unlicense",
   "dependencies": {
     "chalk": "^2.3.2",
-    "figlet": "^1.2.0"
+    "figlet": "^1.2.0",
+    "sequelize": "^4.37.0",
+    "sqlite3": "^3.1.13"
   }
 }

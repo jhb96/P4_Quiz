@@ -9,7 +9,7 @@ const cmds = require("./cmds");
 
 //Mensaje inicial
 
-biglog('CORE Quiz', 'green');
+//biglog('CORE Quiz', 'green');
 
 
 
@@ -33,7 +33,7 @@ rl
 
 		let args = line.split(" ");
 		let cmd = args[0].toLowerCase().trim();
-
+		console.log (cmd);
 
 		switch (cmd) {
 
