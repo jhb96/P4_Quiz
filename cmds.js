@@ -314,12 +314,9 @@ models.quiz.findAll()
               playOne(); 
           }
           else {
-           
               log(`Fin`);
+              console.log(`INCORRECTA`);
               log(`numero de aciertos : ${score}`);
-              log(`INCORRECTA`);
-              log(`numero de aciertos : ${score}`);
-            }
             //log(`Fin`);
             //log(`Fin`);
             //log("FIN DEL JUEGO","red");
