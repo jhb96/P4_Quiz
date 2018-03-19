@@ -314,12 +314,11 @@ models.quiz.findAll()
               playOne(); 
           }
           else {
-            if(score === 0){ 
+           
               log(`Fin`);
               log(`numero de aciertos : ${score}`);
-            }else{
-            console.log(`INCORRECTA`);
-            console.log(`numero de aciertos : ${score}`);
+              log(`INCORRECTA`);
+              log(`numero de aciertos : ${score}`);
             }
             //log(`Fin`);
             //log(`Fin`);
